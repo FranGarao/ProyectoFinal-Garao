@@ -46,7 +46,7 @@ cartBtn.addEventListener("click", () => {
         buttonDelete.remove();
         localStorage.clear();
 
-        title.textContent = "Carrito eliminado.\n\nRedireccionandote al home.";
+        h1.textContent = "Carrito eliminado.\n\nRedireccionandote al home.";
         setTimeout(() => {
           location.reload();
           localStorage.clear();
@@ -110,22 +110,40 @@ cartBtn.addEventListener("click", () => {
   }
 });
 async function findAll() {
-  try {
-    const response = await fetch("../../json/products.json");
-
-    if (!response.ok) {
-      throw new Error("Error al obtener los datos");
-    }
-
-    const products = await response.json();
-    // Puedes trabajar con los datos aquí, por ejemplo, mostrarlos en la página web
-
-    return products; // Si quieres devolver los datos para usarlos fuera de esta función
-  } catch (error) {
-    console.error("Hubo un problema con la petición Fetch:", error);
-    throw error; // Puedes relanzar el error si quieres manejarlo fuera de esta función
-  }
+  return new Promise((resolve, reject) => {
+    fetch("../../json/products.json")
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Error al obtener los datos");
+        }
+        return response.json();
+      })
+      .then((products) => {
+        resolve(products); // Resuelve la promesa con los datos obtenidos
+      })
+      .catch((error) => {
+        console.error("Hubo un problema con la petición Fetch:", error);
+        reject(error); // Rechaza la promesa con el error
+      });
+  });
 }
+// async function findAll() {
+//   try {
+//     const response = await fetch("../../json/products.json");
+
+//     if (!response.ok) {
+//       throw new Error("Error al obtener los datos");
+//     }
+
+//     const products = await response.json();
+//     // Puedes trabajar con los datos aquí, por ejemplo, mostrarlos en la página web
+
+//     return products; // Si quieres devolver los datos para usarlos fuera de esta función
+//   } catch (error) {
+//     console.error("Hubo un problema con la petición Fetch:", error);
+//     throw error; // Puedes relanzar el error si quieres manejarlo fuera de esta función
+//   }
+// }
 
 // Llamar a la función obtenerProductos
 findAll().then((products) => {
