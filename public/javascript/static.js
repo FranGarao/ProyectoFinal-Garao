@@ -27,19 +27,34 @@ cartBtn.addEventListener("click", () => {
       const h2 = document.createElement("h2");
       const buttonDelete = document.createElement("button");
       const buttonAdd = document.createElement("button");
+      const buy = document.createElement("button");
 
+      buy.classList.add("buy");
       buttonDelete.classList.add("delete");
-      buttonDelete.textContent = "X";
       buttonAdd.classList.add("add");
+      buy.textContent = "Comprar";
+      buttonDelete.textContent = "X";
       buttonAdd.textContent = "+";
       h2.textContent = `Producto: ${product.title} $${product.price} ${product.cantidad}`;
       article.appendChild(h2);
+      article.appendChild(buy);
       article.appendChild(buttonDelete);
       article.appendChild(buttonAdd);
 
       modal.appendChild(article);
 
       //
+      buy.addEventListener("click", () => {
+        Swal.fire({
+          title: "<strong> <u>Funcion no disponible</u></strong>",
+          icon: "info",
+          html: `
+             Te invitamos a ver <a href="../../index.html"><b>Nuestra lista de productos</b></a><br> Tambien podes probar nuestro <a href="../../register.html"><b>formulario de registro</b></a>
+            `,
+
+          focusConfirm: false,
+        });
+      });
 
       clear.addEventListener("click", () => {
         article.remove();

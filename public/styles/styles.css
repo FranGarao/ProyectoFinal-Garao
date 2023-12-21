@@ -184,3 +184,23 @@ color: rgb(15, 67, 239);
   #login:hover{
     text-decoration: underline;
   }
+  a h2{
+    display: inline-block;
+    width: 200px;
+  }
+  a {
+    width: 100%;
+  }
+  .buy{
+    position: absolute;
+    bottom: 20px;
+    right: 50%;
+    width: 20%;
+    height: 8%;
+    background-color:rgb(72, 255, 0);
+    padding: 10px;
+    font-weight: bold;
+    font-size: 20px;;
+    border: none;
+    border-radius: 10px;
+  }
