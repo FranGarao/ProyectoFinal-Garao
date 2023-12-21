@@ -1,4 +1,5 @@
 let cart = [];
+
 const cartBtn = document.getElementById("cart");
 const modal = document.getElementById("modal");
 const sectionList = document.getElementById("products-list");
@@ -8,6 +9,7 @@ const clearCart = document.getElementById("clear");
 cartBtn.addEventListener("click", () => {
   let dataJson = JSON.stringify(cart);
   localStorage.setItem("Carrito", dataJson);
+
   if (cart.length < 1) {
     Swal.fire({
       title: "No agregaste nada a tu carrito",
@@ -20,16 +22,29 @@ cartBtn.addEventListener("click", () => {
     sectionList.classList.add("modal-invisible");
     sectionList.classList.remove("products-list");
     const title = document.createElement("h1");
+    title.classList.add("title");
     title.textContent = "Tu carrito:";
     modal.appendChild(title);
+    let finalPrice = 0;
+    const finalPriceDiv = document.createElement("div");
+    const finalPriceContent = document.createElement("p");
+    finalPriceDiv.classList.add("final-price");
+    finalPriceDiv.appendChild(finalPriceContent);
+    modal.appendChild(finalPriceDiv);
     cart.forEach((product) => {
+      console.log(finalPrice);
+      finalPrice += product.price;
+      finalPriceContent.textContent = `Precio final: ${finalPrice}`;
+
+      //
+
       const article = document.createElement("article");
       const h2 = document.createElement("h2");
       const buttonDelete = document.createElement("button");
       const buttonAdd = document.createElement("button");
       const buy = document.createElement("button");
-
       buy.classList.add("buy");
+
       buttonDelete.classList.add("delete");
       buttonAdd.classList.add("add");
       buy.textContent = "Comprar";
@@ -46,13 +61,26 @@ cartBtn.addEventListener("click", () => {
       //
       buy.addEventListener("click", () => {
         Swal.fire({
-          title: "<strong> <u>Funcion no disponible</u></strong>",
-          icon: "info",
-          html: `
-             Te invitamos a ver <a href="../../index.html"><b>Nuestra lista de productos</b></a><br> Tambien podes probar nuestro <a href="../../register.html"><b>formulario de registro</b></a>
+          title: "Confirmar compra?",
+          text: "Te redireccionaremos a los metodos de pago!",
+          icon: "success",
+          showCancelButton: true,
+          confirmButtonColor: "#3085d6",
+          cancelButtonColor: "#d33",
+          cancelButtonText: "Cancelar",
+          confirmButtonText: "Comprar!",
+        }).then((result) => {
+          if (result.isConfirmed) {
+            Swal.fire({
+              title: "<strong> <u>Funcion no disponible</u></strong>",
+              icon: "info",
+              html: `
+             Te invitamos a ver <a href="../../index.html"><b>Nuestra lista de productos</b></a><br> Tambien podes probar nuestro <a href="../../register.html"><b>Formulario de registro</b></a>
             `,
 
-          focusConfirm: false,
+              focusConfirm: false,
+            });
+          }
         });
       });
 
@@ -75,6 +103,8 @@ cartBtn.addEventListener("click", () => {
 
         if (product.cantidad < 2) {
           product.cantidad--;
+          finalPrice -= product.price;
+          finalPriceContent.textContent = `Precio final: ${finalPrice}`;
           article.remove();
           buttonAdd.remove();
           buttonDelete.remove();
@@ -87,9 +117,12 @@ cartBtn.addEventListener("click", () => {
         } else {
           product.stock++;
           product.cantidad--;
+          finalPrice -= product.price;
+          finalPriceContent.textContent = `Precio final: ${finalPrice}`;
           localStorage.clear();
           dataJson = JSON.stringify(cart);
           localStorage.setItem("Carrito", dataJson);
+
           h2.textContent = `Producto: ${product.title} $${product.price} ${product.cantidad}`;
 
           console.log(cart);
@@ -105,9 +138,13 @@ cartBtn.addEventListener("click", () => {
         }
       });
       buttonAdd.addEventListener("click", () => {
+        finalPriceContent.textContent = ``;
         if (product.stock > 0) {
+          finalPrice += product.price;
+          finalPriceContent.textContent = `Precio final: ${finalPrice}`;
           product.stock--;
           product.cantidad++;
+
           localStorage.clear();
           dataJson = JSON.stringify(cart);
           localStorage.setItem("Carrito", dataJson);
@@ -118,6 +155,8 @@ cartBtn.addEventListener("click", () => {
             text: "",
             icon: "error",
           });
+
+          finalPriceContent.textContent = `Precio final: ${finalPrice}`;
         }
 
         console.log(product);
@@ -143,23 +182,6 @@ async function findAll() {
       });
   });
 }
-// async function findAll() {
-//   try {
-//     const response = await fetch("../../json/products.json");
-
-//     if (!response.ok) {
-//       throw new Error("Error al obtener los datos");
-//     }
-
-//     const products = await response.json();
-//     // Puedes trabajar con los datos aquí, por ejemplo, mostrarlos en la página web
-
-//     return products; // Si quieres devolver los datos para usarlos fuera de esta función
-//   } catch (error) {
-//     console.error("Hubo un problema con la petición Fetch:", error);
-//     throw error; // Puedes relanzar el error si quieres manejarlo fuera de esta función
-//   }
-// }
 
 // Llamar a la función obtenerProductos
 findAll().then((products) => {
