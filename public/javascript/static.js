@@ -72,10 +72,10 @@ cartBtn.addEventListener("click", () => {
         }).then((result) => {
           if (result.isConfirmed) {
             Swal.fire({
-              title: "<strong> <u>Funcion no disponible</u></strong>",
+              title: "<strong> <u>Seguimos en desarrollo :(</u></strong>",
               icon: "info",
               html: `
-             Te invitamos a ver <a href="../../index.html"><b>Nuestra lista de productos</b></a><br> Tambien podes probar nuestro <a href="../../register.html"><b>Formulario de registro</b></a>
+             Te invitamos a ver <a href="../../index.html"><b>Nuestra lista de productos</b></a><br> 
             `,
 
               focusConfirm: false,

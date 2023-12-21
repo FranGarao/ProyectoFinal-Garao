@@ -228,4 +228,14 @@ color: rgb(15, 67, 239);
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
+  }#register-btn{
+    align-self: center;
+    background-color:  rgb(15, 67, 239);
+    padding: 7px;
+    width: 40%;
+    height: 8%;
+    font-size: 20px;
+    color: white;
+    border-radius: 10px;
+    margin: 0 auto;
   }
