@@ -2,7 +2,9 @@ let cart = [];
 const cartBtn = document.getElementById("cart");
 const modal = document.getElementById("modal");
 const sectionList = document.getElementById("products-list");
+
 const clearCart = document.getElementById("clear");
+
 cartBtn.addEventListener("click", () => {
   let dataJson = JSON.stringify(cart);
   localStorage.setItem("Carrito", dataJson);
@@ -17,7 +19,6 @@ cartBtn.addEventListener("click", () => {
     modal.classList.add("modal-visible");
     sectionList.classList.add("modal-invisible");
     sectionList.classList.remove("products-list");
-
     const title = document.createElement("h1");
     title.textContent = "Tu carrito:";
     modal.appendChild(title);
