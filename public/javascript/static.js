@@ -11,7 +11,7 @@ document.addEventListener("DOMContentLoaded", function () {
     cartBtn.addEventListener("click", () => {
       let dataJson = JSON.stringify(cart);
       localStorage.setItem("Carrito", dataJson);
-
+      console.log(cart);
       if (cart.length < 1) {
         Swal.fire({
           title: "No agregaste nada a tu carrito",
@@ -33,13 +33,19 @@ document.addEventListener("DOMContentLoaded", function () {
         finalPriceDiv.classList.add("final-price");
         finalPriceDiv.appendChild(finalPriceContent);
         modal.appendChild(finalPriceDiv);
+
         cart.forEach((product) => {
+          if (cart.length < 2) {
+            finalPrice = product.cantidad * product.price;
+
+            console.log(cart);
+          } else {
+            finalPrice += product.cantidad * product.price;
+            console.log(cart);
+          }
           console.log(product.cantidad, product.price);
-          finalPrice = product.cantidad * product.price;
 
           finalPriceContent.textContent = `Precio final: ${finalPrice}`;
-
-          //
 
           const article = document.createElement("article");
           const h2 = document.createElement("h2");
